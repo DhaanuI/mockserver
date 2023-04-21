@@ -1,12 +1,13 @@
 const mongoose = require("mongoose")
 
-const postSchema = mongoose.Schema({
+const dogSchema = mongoose.Schema({
+    id: Number,
     name: String,
-    avatar: String,
-    price: Number,
-    rating: Number
+    age: Number,
+    place: String,
+    gender: String
 })
 
-const PostModel = mongoose.model("post",postSchema)
+const DogModel = mongoose.model("dogs", dogSchema)
 
-module.exports = {PostModel}
+module.exports = { DogModel }

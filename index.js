@@ -1,5 +1,5 @@
 const express = require("express")
-//const { connection } = require("./config/db")
+const { connection } = require("./config/db")
 //const { user_router } = require("./route/user.router")
 //const { post_route } = require("./route/post.router")
 const { dogRoute } = require("./route/dog.router")
@@ -21,12 +21,12 @@ app.use(dogRoute)
 //app.use("/posts", post_route)
 
 app.listen(process.env.port, async () => {
-    // try {
-    //     await connection
-    //     console.log("Connected DB...");
-    // } catch (error) {
-    //     console.log("DB connection lose");
-    //     console.log(error)
-    // }
+    try {
+        await connection
+        console.log("Connected DB...");
+    } catch (error) {
+        console.log("DB connection lose");
+        console.log(error)
+    }
     console.log(`Running at port ${process.env.port}`);
 })
