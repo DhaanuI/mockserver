@@ -10,7 +10,8 @@ dogRoute.get("/dogs/", async (req, res) => {
     if (token) {
         const query = req.query
         try {
-            const post = await DogModel.find(query)
+            const post = await DogModel.find()
+            // console.log(post)
             res.send(post)
         } catch (error) {
             console.log(error);
@@ -40,13 +41,17 @@ dogRoute.patch("/update/:id", async (req, res) => {
 
     token = req.headers.token
     if (token) {
-        const id = req.params.id;
+        let id = req.params.id;
+
         const body = req.body;
+        console.log(id, body)
+        // id=String(id);
         //const post = await DogModel.findOne({"_id":id})
         // const userID_in_post = post.userID;
         // const userID_in_req = req.body.userID
         try {
-            await DogModel.findByIdAndUpdate({ _id: id }, body)
+            const post = await DogModel.findOneAndUpdate({ _id: id }, body)
+            console.log(post)
             res.send("Post has been updated")
             // if (userID_in_req !== userID_in_post) {
             //     res.send({"Msg":"Your not Authorized"})
@@ -70,7 +75,7 @@ dogRoute.delete("/delete/:id", async (req, res) => {
         // const userID_in_post = post.userID;
         // const userID_in_req = req.body.userID
         try {
-            await DogModel.findByIdAndDelete({ _id: id })
+            const post = await DogModel.findOneAndDelete({ _id: id })
             res.send("Post has been Deleted")
             // if (userID_in_req !== userID_in_post) {
             //     res.send({"Msg":"Your not Authorized"})
