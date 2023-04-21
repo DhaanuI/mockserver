@@ -79,73 +79,79 @@
 
 const express = require("express")
 const fs = require("fs")
-const studentRoute = express.Router();
+const dogRoute = express.Router();
 //const {validator}=require("./middlewares/validator.middleware.js")
 
-studentRoute.get("/students", (req, res) => {
+dogRoute.get("/dogs", (req, res) => {
     const read = fs.readFileSync("./db.json");
     const parsedData = JSON.parse(read);
-    res.send(parsedData.students)
+    res.send(parsedData.dogs)
 })
 
-studentRoute.get("/students/:rollNo", (req, res) => {
+// studentRoute.get("/students/:rollNo", (req, res) => {
+//     const read = fs.readFileSync("./db.json");
+
+//     const parsedData = JSON.parse(read);
+//     let data = req.params.rollNo;
+//     data = data.split("").map(Number)
+//     data = data.slice(1)
+//     data = data.join("")
+//     console.log(data)
+//     console.log(req.params.rollNo.slice(1))
+//     let flag = true;
+//     parsedData.students.forEach((item, index) => {
+
+//         if (item.id == data) {
+//             res.send(item)
+//             flag = false;
+//         }
+//     });
+//     if (flag) {
+//         res.send("Bad request")
+//     }
+
+// })
+
+
+dogRoute.post("/dogs/add", (req, res) => {
     const read = fs.readFileSync("./db.json");
-
     const parsedData = JSON.parse(read);
-    let data = req.params.rollNo;
-    data = data.split("").map(Number)
-    data = data.slice(1)
-    data = data.join("")
-    console.log(data)
-    console.log(req.params.rollNo.slice(1))
-    let flag = true;
-    parsedData.students.forEach((item, index) => {
-
-        if (item.roll_no == data) {
-            res.send(item)
-            flag = false;
-        }
-    });
-    if (flag) {
-        res.send("Bad request")
-    }
-
-})
-
-
-studentRoute.post("/students/addstudent", (req, res) => {
-    const read = fs.readFileSync("./db.json");
-    const parsedData = JSON.parse(read);
-    parsedData.students.push(req.body);
+    // console.log(parsedData.dogs.length)
+    req.body.id = parsedData.dogs.length + 1
+    parsedData.dogs.push(req.body);
     fs.writeFileSync("./db.json", JSON.stringify(parsedData));
-    res.send("Student added")
+    res.send("Dog information added")
 })
 
 //studentRoute.use(validator)
 
-studentRoute.patch("/students/:rollNo", (req, res) => {
+dogRoute.patch("/dogs/:id", (req, res) => {
     const read = fs.readFileSync("./db.json");
     const parsedData = JSON.parse(read);
-    let data = req.params.rollNo;
+    let data = req.params.id;
     console.log(data)
     // data = data.split("").map(Number)
     // data = data.slice(1)
     // data = data.join("")
-    parsedData.students.forEach((item, index) => {
+    parsedData.dogs.forEach((item, index) => {
         //  console.log(req.body)
         //console.log(data)
-        if (item.roll_no == data) {
+        if (item.id == data) {
             if (item.name !== req.body.name && req.body.name !== undefined) {
                 console.log(item.name, req.body.name)
                 item.name = req.body.name
             }
-            if (item.location !== req.body.location && req.body.location !== undefined) {
-                console.log(item.location, req.body.location)
-                item.location = req.body.location
+            if (item.age !== req.body.age && req.body.age !== undefined) {
+                console.log(item.age, req.body.age)
+                item.age = req.body.age
             }
-            if (item.course !== req.body.course && req.body.course !== undefined) {
-                console.log(item.course, req.body.course)
-                item.course = req.body.course
+            if (item.place !== req.body.place && req.body.place !== undefined) {
+                console.log(item.place, req.body.place)
+                item.place = req.body.place
+            }
+            if (item.gender !== req.body.gender && req.body.gender !== undefined) {
+                console.log(item.gender, req.body.gender)
+                item.gender = req.body.gender
             }
 
 
@@ -153,27 +159,27 @@ studentRoute.patch("/students/:rollNo", (req, res) => {
     });
 
     fs.writeFileSync("./db.json", JSON.stringify(parsedData));
-    res.send("Student information modified")
+    res.send("Dog information modified")
 })
 
-studentRoute.delete("/students/:rollNo", (req, res) => {
+dogRoute.delete("/dogs/:id", (req, res) => {
     const read = fs.readFileSync("./db.json");
     const parsedData = JSON.parse(read);
-    let data = req.params.rollNo;
+    let data = req.params.id;
     // data = data.split("").map(Number)
     // data = data.slice(1)
     // data = data.join("")
-    parsedData.students.forEach((item, index) => {
+    parsedData.dogs.forEach((item, index) => {
         console.log(req.body)
-        if (item.roll_no == data) {
-            parsedData.students.splice(index, 1)
+        if (item.id == data) {
+            parsedData.dogs.splice(index, 1)
         }
     });
     fs.writeFileSync("./db.json", JSON.stringify(parsedData));
-    res.send("Student deleted")
+    res.send("Dog information deleted")
 })
 
 
 module.exports = {
-    studentRoute
+    dogRoute
 }
