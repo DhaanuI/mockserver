@@ -5,14 +5,20 @@ require('dotenv').config()
 const dogRoute = express.Router();
 
 dogRoute.get("/dogs/", async (req, res) => {
-    const query = req.query
-    try {
-        const post = await DogModel.find(query)
-        res.send(post)
-    } catch (error) {
-        console.log(error);
-        res.send({ "err": "Something went wrong" })
+    //console.log(req.headers.token)
+    token = req.headers.token
+    if (token) {
+        const query = req.query
+        try {
+            const post = await DogModel.find(query)
+            res.send(post)
+        } catch (error) {
+            console.log(error);
+            res.send({ "err": "Something went wrong" })
+        }
     }
+    else res.send("Not Authorised")
+
 })
 
 dogRoute.post("/dogs/", async (req, res) => {
@@ -31,44 +37,53 @@ dogRoute.post("/dogs/", async (req, res) => {
 })
 
 dogRoute.patch("/update/:id", async (req, res) => {
-    const id = req.params.id;
-    const body = req.body;
-    //const post = await DogModel.findOne({"_id":id})
-    // const userID_in_post = post.userID;
-    // const userID_in_req = req.body.userID
-    try {
-        await DogModel.findByIdAndUpdate({ _id: id }, body)
-        res.send("Post has been updated")
-        // if (userID_in_req !== userID_in_post) {
-        //     res.send({"Msg":"Your not Authorized"})
-        // } else {
-        //     await DogModel.findByIdAndUpdate({_id:id},body)
-        //     res.send("Post has been updated")
-        // }
-    } catch (error) {
-        console.log(error);
-        res.send({ "err": "Something went wrong" })
+
+    token = req.headers.token
+    if (token) {
+        const id = req.params.id;
+        const body = req.body;
+        //const post = await DogModel.findOne({"_id":id})
+        // const userID_in_post = post.userID;
+        // const userID_in_req = req.body.userID
+        try {
+            await DogModel.findByIdAndUpdate({ _id: id }, body)
+            res.send("Post has been updated")
+            // if (userID_in_req !== userID_in_post) {
+            //     res.send({"Msg":"Your not Authorized"})
+            // } else {
+            //     await DogModel.findByIdAndUpdate({_id:id},body)
+            //     res.send("Post has been updated")
+            // }
+        } catch (error) {
+            console.log(error);
+            res.send({ "err": "Something went wrong" })
+        }
     }
+    else res.send("Not Authorised")
 })
 
 dogRoute.delete("/delete/:id", async (req, res) => {
-    const id = req.params.id;
-    // const post = await DogModel.findOne({"_id":id})
-    // const userID_in_post = post.userID;
-    // const userID_in_req = req.body.userID
-    try {
-        await DogModel.findByIdAndDelete({ _id: id })
-        res.send("Post has been Deleted")
-        // if (userID_in_req !== userID_in_post) {
-        //     res.send({"Msg":"Your not Authorized"})
-        // } else {
-        //     await DogModel.findByIdAndDelete({_id:id})
-        //     res.send("Post has been Deleted")
-        // }
-    } catch (error) {
-        console.log(error);
-        res.send({ "err": "Something went wrong" })
+    token = req.headers.token
+    if (token) {
+        const id = req.params.id;
+        // const post = await DogModel.findOne({"_id":id})
+        // const userID_in_post = post.userID;
+        // const userID_in_req = req.body.userID
+        try {
+            await DogModel.findByIdAndDelete({ _id: id })
+            res.send("Post has been Deleted")
+            // if (userID_in_req !== userID_in_post) {
+            //     res.send({"Msg":"Your not Authorized"})
+            // } else {
+            //     await DogModel.findByIdAndDelete({_id:id})
+            //     res.send("Post has been Deleted")
+            // }
+        } catch (error) {
+            console.log(error);
+            res.send({ "err": "Something went wrong" })
+        }
     }
+    else res.send("Not Authorised")
 })
 
 module.exports = { dogRoute }
