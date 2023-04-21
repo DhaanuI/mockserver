@@ -18,11 +18,11 @@ dogRoute.get("/dogs/", async (req, res) => {
 dogRoute.post("/dogs/", async (req, res) => {
     const body = req.body
     try {
-        // const post = new DogModel(body)
-        // await post.save()
+        const post = new DogModel(body)
+        await post.save()
 
 
-        await DogModel.insertMany(body);
+        // await DogModel.insertMany(body);
         res.send("Post has been inserted")
     } catch (error) {
         console.log(error);
