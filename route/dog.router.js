@@ -17,7 +17,7 @@ dogRoute.get("/dogs/", async (req, res) => {
             res.send({ "err": "Something went wrong" })
         }
     }
-    else res.send("Not Authorised")
+    else res.send({ "message": "Not Authorised" })
 
 })
 
@@ -59,7 +59,7 @@ dogRoute.patch("/update/:id", async (req, res) => {
             res.send({ "err": "Something went wrong" })
         }
     }
-    else res.send("Not Authorised")
+    else res.send({ "message": "Not Authorised" })
 })
 
 dogRoute.delete("/delete/:id", async (req, res) => {
@@ -83,7 +83,7 @@ dogRoute.delete("/delete/:id", async (req, res) => {
             res.send({ "err": "Something went wrong" })
         }
     }
-    else res.send("Not Authorised")
+    else res.send({ "message": "Not Authorised" })
 })
 
 module.exports = { dogRoute }
